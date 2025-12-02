@@ -10,6 +10,8 @@ from typing import Callable, Dict, List, Optional, Sequence, Union
 
 import bibtexparser
 
+from .core import make_key
+
 BIBTYPE_TO_RIS = {
     "article": "JOUR",
     "journal": "JOUR",
@@ -100,6 +102,75 @@ def _entry_to_ris(entry: Dict[str, str]) -> str:
 
     lines.append("ER  - ")
     return "\n".join(lines)
+
+
+def _bib_entry_to_rec(entry: Dict[str, str]) -> Dict[str, List[str]]:
+    """Map a BibTeX entry into a minimal RIS-like record for key generation."""
+    rec: Dict[str, List[str]] = {}
+    title = entry.get("title")
+    if title:
+        rec["TI"] = [title]
+        rec["T1"] = [title]
+    year = entry.get("year")
+    if year:
+        rec["PY"] = [str(year)]
+    authors = _split_authors(entry.get("author", ""))
+    if authors:
+        rec["AU"] = authors
+    return rec
+
+
+def rekey_bib_entries(entries: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    """
+    Regenerate BibTeX keys for a list of entries using the RIS key style.
+
+    Deduplicates by appending a, b, c... if the same key repeats.
+    """
+    seen: Dict[str, int] = {}
+    for entry in entries:
+        rec = _bib_entry_to_rec(entry)
+        base_key = make_key(rec)
+        count = seen.get(base_key, 0)
+        key = base_key if count == 0 else f"{base_key}{chr(ord('a') + count)}"
+        seen[base_key] = count + 1
+        entry["ID"] = key
+    return entries
+
+
+def rekey_bib_files(
+    inputs: Sequence[Union[str, Path]],
+    *,
+    on_warning: Optional[Callable[[str], None]] = None,
+) -> str:
+    """Load one or more .bib files, regenerate keys, and return BibTeX text."""
+    warn = on_warning or (lambda msg: None)
+    entries: List[Dict[str, str]] = []
+
+    for inp in inputs:
+        path = Path(inp)
+        if not path.exists():
+            warn(f"File not found: {path}")
+            continue
+        with path.open("r", encoding="utf-8") as handle:
+            try:
+                bib_db = bibtexparser.load(handle)
+            except Exception as exc:  # pragma: no cover
+                warn(f"Failed to parse {path}: {exc}")
+                continue
+            if not bib_db.entries:
+                warn(f"No BibTeX entries found in: {path}")
+            entries.extend(bib_db.entries)
+
+    if not entries:
+        raise ValueError("No BibTeX entries found.")
+
+    rekey_bib_entries(entries)
+    writer = bibtexparser.bwriter.BibTexWriter()
+    writer.order_entries_by = None
+    db = bibtexparser.bibdatabase.BibDatabase()
+    db.entries = entries
+    output_text = writer.write(db)
+    return output_text
 
 
 def convert_bib_files(

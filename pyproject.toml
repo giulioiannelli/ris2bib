@@ -45,3 +45,4 @@ ris2bib = ["py.typed"]
 
 [project.optional-dependencies]
 dev = ["pytest>=7"]
+gui = ["tkinterdnd2>=0.4.2"]

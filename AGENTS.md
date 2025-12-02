@@ -7,7 +7,7 @@ This project converts RIS ↔ BibTeX with a CLI, a Tkinter GUI (RIS → BibTeX),
 - `src/ris2bib/bib.py` – BibTeX → RIS logic.
 - `src/ris2bib/cli.py` – `ris2bib` CLI.
 - `src/ris2bib/bib_cli.py` – `bib2ris` CLI.
-- `src/ris2bib/gui.py` – Tkinter GUI (RIS → BibTeX).
+- `src/ris2bib/gui.py` – Tkinter GUI (toggle RIS → BibTeX or BibTeX → RIS, optional drag/drop).
 - `samples/` – Example RIS/Bib files for smoke tests.
 - `tests/` – Pytest suite.
 - `pyproject.toml` – Packaging and dependencies (dev extra includes pytest).
@@ -35,6 +35,10 @@ Runtime deps are minimal: `bibtexparser` plus stdlib.
 ## Testing/CI
 - Use `pytest`; tests cover both directions and key/title handling.
 - CI workflow runs `pip install -e .[dev]` then `pytest`.
+
+## GUI specifics
+- Drag-and-drop uses optional `tkinterdnd2`; if not installed, GUI falls back to file picker and shows a hint.
+- Mode switch determines output (BibTeX aggregated; RIS entries emitted together). GUI accepts mixed `.ris`/`.bib` inputs and normalizes keys for BibTeX output.
 
 ## Versioning/Docs
 - Update `CHANGELOG.md` and `pyproject.toml` version together when shipping changes.
