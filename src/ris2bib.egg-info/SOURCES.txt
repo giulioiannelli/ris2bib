@@ -3,11 +3,16 @@ README.md
 pyproject.toml
 src/ris2bib/__init__.py
 src/ris2bib/__main__.py
+src/ris2bib/bib.py
+src/ris2bib/bib_cli.py
 src/ris2bib/cli.py
 src/ris2bib/core.py
 src/ris2bib/gui.py
+src/ris2bib/py.typed
 src/ris2bib.egg-info/PKG-INFO
 src/ris2bib.egg-info/SOURCES.txt
 src/ris2bib.egg-info/dependency_links.txt
 src/ris2bib.egg-info/entry_points.txt
+src/ris2bib.egg-info/requires.txt
 src/ris2bib.egg-info/top_level.txt
+tests/test_conversion.py

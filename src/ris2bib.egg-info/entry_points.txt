@@ -1,4 +1,5 @@
 [console_scripts]
+bib2ris = ris2bib.bib_cli:main
 ris2bib = ris2bib.cli:main
 
 [gui_scripts]
