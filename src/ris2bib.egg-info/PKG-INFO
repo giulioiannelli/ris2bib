@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: ris2bib
+Version: 0.1.0
+Summary: Convert RIS bibliography files to BibTeX, with CLI and simple GUI.
+Author: ris2bib contributors
+License: MIT
+Project-URL: Homepage, https://github.com/yourname/ris2bib
+Project-URL: Issues, https://github.com/yourname/ris2bib/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Text Processing :: Markup
+Classifier: Environment :: Console
+Classifier: Environment :: MacOS X
+Classifier: Environment :: Win32 (MS Windows)
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# ris2bib
+
+Convert RIS bibliography files to BibTeX with a simple CLI and Tkinter GUI.
+
+## Features
+- Generates lowercase BibTeX keys based on author, year, and title.
+- Handles multiple RIS files at once and concatenates the output.
+- Cross-platform GUI for quick drag-and-drop style workflows (works with file picker).
+- Library-friendly `convert_files` function for scripting.
+
+## Installation
+```
+pip install .
+```
+or install directly from a Git clone:
+```
+pip install git+https://github.com/yourname/ris2bib.git
+```
+
+## CLI usage
+```
+ris2bib input1.ris [input2.ris ...] -o output.bib
+ris2bib input.ris              # writes BibTeX to stdout
+```
+
+## GUI usage
+- Run `ris2bib-gui` (installed entry point), or `python -m ris2bib.gui`.
+- Click “Choose RIS files…” to select one or more `.ris` files.
+- Click “Convert” to generate BibTeX; the output appears in the text area.
+- Click “Save output…” to write the BibTeX to disk.
+
+## Library usage
+```python
+from ris2bib import convert_files
+
+bibtex_text = convert_files(["references.ris"])
+```
+
+## Development
+- Editable install: `pip install -e .`
+- Linting/formatting: none required; standard library only.
+- Packaging: `pyproject.toml` with setuptools backend; source lives in `src/`.

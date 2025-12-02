@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ris2bib"
+version = "0.1.0"
+description = "Convert RIS bibliography files to BibTeX, with CLI and simple GUI."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [{name = "ris2bib contributors"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Text Processing :: Markup",
+    "Environment :: Console",
+    "Environment :: MacOS X",
+    "Environment :: Win32 (MS Windows)"
+]
+dependencies = ["bibtexparser>=1.4"]
+
+[project.scripts]
+ris2bib = "ris2bib.cli:main"
+bib2ris = "ris2bib.bib_cli:main"
+
+[project.gui-scripts]
+ris2bib-gui = "ris2bib.gui:main"
+
+[project.urls]
+Homepage = "https://github.com/yourname/ris2bib"
+Issues = "https://github.com/yourname/ris2bib/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
