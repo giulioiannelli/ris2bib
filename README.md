@@ -1,5 +1,4 @@
 # ris2bib
-[![CI](https://github.com/opisthofulax/ris2bib/actions/workflows/ci.yml/badge.svg)](https://github.com/opisthofulax/ris2bib/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Convert RIS bibliography files to BibTeX (and BibTeX back to RIS) with a simple CLI and Tkinter GUI.
